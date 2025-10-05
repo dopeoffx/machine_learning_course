@@ -12,14 +12,10 @@ class AgglomerativeClustering():
         self.rows = list(dataframe.itertuples(index=False, name=None))
         self.n = len(self.rows)
         self.alive = [True for i in range(self.n)]
-        self.function = self.manhattan_metric
-        self.linkage = linkage
-        if metrics=="Euclidean":
-            self.function = self.euclidean_metric
-        if linkage=="complete":
-            self.linkage = "complete"
+        self.function = self.euclidean_metric if metrics=="Euclidean" else self.manhattan_metric
+        self.linkage = "complete" if linkage=="complete" else "single"
         self.table = self.create_table()
-        self.target_number_of_clusters = target_number_of_clusters
+        self.target_number_of_clusters = target_number_of_clusters 
         
         
         self.cluster_id = list(range(self.n))
