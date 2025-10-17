@@ -1,2 +1,7 @@
 /m_l_venv
 .DS_Store
+datasets/bars_noise20.csv
+datasets/bars_noise50.csv
+datasets/bars.csv
+datasets/mnist_labels.csv
+datasets/mnist.csv
