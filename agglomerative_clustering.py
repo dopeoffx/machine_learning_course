@@ -76,20 +76,16 @@ class AgglomerativeClustering():
     def merge_clusters(self, A, B, dist):
         LINK = min if self.linkage == "single" else max
         
-        # zaznamenej linkage řádek s původními ID klastrů
         idA = self.cluster_id[A]
         idB = self.cluster_id[B]
         new_size = self.cluster_size[idA] + self.cluster_size[idB]
         self.linkage_rows.append([idA, idB, float(dist), int(new_size)])
         
-        # nový cluster dostane nové ID
         new_id = self.next_cluster_id
         self.next_cluster_id += 1
         
-        # aktualizace velikostí a členů
         self.cluster_size[new_id] = new_size
         self.members[new_id] = self.members[idA] + self.members[idB]
-        # staré mapy necháme existovat (kvůli historii), ale A nyní reprezentuje new_id
         self.cluster_id[A] = new_id
             
         for X in range(self.n):
@@ -137,7 +133,6 @@ class AgglomerativeClustering():
                 labels[pt] = id_to_label[cid]
         return np.array(labels, dtype=int)
 
-    # --- Vizualizační pomocníci ---
     def plot_dendrogram(self, truncate_mode=None, p=12, leaf_rotation=90):
         """
         Vykreslí dendrogram z aktuální linkage historie (po fit_until_k).
@@ -170,7 +165,6 @@ class AgglomerativeClustering():
         if labels is None:
             plt.scatter(X2[:, 0], X2[:, 1])
         else:
-            # žádné explicitní barvy – matplotlib vybere sám
             for lbl in np.unique(labels):
                 idx = labels == lbl
                 plt.scatter(X2[idx, 0], X2[idx, 1], label=f"Cluster {lbl}")
@@ -191,7 +185,6 @@ if __name__ == "__main__":
 
     clust.fit_until_k(1)
     
-    # dendrogram (chce SciPy)
     clust.plot_dendrogram()
     
     clust.plot_scatter(labels=labels)
