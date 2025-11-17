@@ -6,7 +6,7 @@ from scipy.cluster.hierarchy import dendrogram
 import matplotlib.pyplot as plt
 
 class AgglomerativeClustering():
-    def __init__(self, dataframe, metrics = "Manhattan", linkage="single",  target_number_of_clusters=0) -> None:
+    def __init__(self, dataframe, metrics = "Manhattan", linkage="single") -> None:
         self.df = dataframe.select_dtypes(include=[np.number])
         
         self.rows = list(dataframe.itertuples(index=False, name=None))
@@ -15,7 +15,6 @@ class AgglomerativeClustering():
         self.function = self.euclidean_metric if metrics=="Euclidean" else self.manhattan_metric
         self.linkage = "complete" if linkage=="complete" else "single"
         self.table = self.create_table()
-        self.target_number_of_clusters = target_number_of_clusters 
         
         
         self.cluster_id = list(range(self.n))
@@ -178,7 +177,7 @@ class AgglomerativeClustering():
 if __name__ == "__main__":
     df_full = pd.read_csv('clusters3.csv', sep=";")
     
-    clust = AgglomerativeClustering(df_full, target_number_of_clusters=2, linkage="complete")
+    clust = AgglomerativeClustering(df_full, linkage="complete")
     clust.fit_until_k(3)
     
     labels = clust.get_labels_at_k(3)
